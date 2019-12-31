@@ -5,7 +5,9 @@
   "dependencies": {
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "react-three-fiber": "^3.0.17",
+    "three": "^0.112.1"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
@@ -20,9 +22,7 @@
     "@types/node": "12.12.22",
     "@types/react": "16.9.17",
     "@types/react-dom": "16.9.4",
-    "cypress": "3.8.1",
     "eslint-config-prettier": "6.9.0",
-    "eslint-plugin-cypress": "2.8.1",
     "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-react": "7.17.0",
     "husky": "3.1.0",
@@ -48,9 +48,7 @@
     "new:util": "hygen util new",
     "prepush": "npm run test:ci",
     "static": "serve -s build",
-    "test:ci": "CI=true npm-run-all test:lint test:types \"test:unit -- -i\" test:visual:ci test:e2e:ci",
-    "test:e2e": "cypress run",
-    "test:e2e:ci": "CYPRESS_baseUrl=http://localhost:5000 start-server-and-test start:ci http://localhost:5000 \"cypress run --port 5052\"",
+    "test:ci": "CI=true npm-run-all test:lint test:types \"test:unit -- -i\" test:visual:ci",
     "test:lint": "eslint -c ./.eslintrc.js 'src/**/*.{ts,tsx}'",
     "test:lint:fix": "npm run test:lint -- --fix",
     "test:playground": "NODE_ENV=loki BABEL_ENV=development start-storybook -p 9009 -s public",
