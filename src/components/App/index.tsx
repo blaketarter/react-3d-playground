@@ -1,10 +1,11 @@
 import React from "react"
-import { Playground } from "../Playground"
+import { CremaMountains } from "../CremaMountains"
 
 export function App() {
   return (
     <div className="App">
-      <Playground />
+      {/* <Playground /> */}
+      <CremaMountains />
     </div>
   )
 }
