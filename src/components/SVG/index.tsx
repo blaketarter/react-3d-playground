@@ -1,4 +1,4 @@
-import React from "react"
+import React, { forwardRef } from "react"
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader"
 import { Shape, DoubleSide, Group } from "three"
 import { useLoader, ReactThreeFiber } from "react-three-fiber"
@@ -12,33 +12,37 @@ function DefaultCustomShape({ shape }: { shape: Shape; index: number }) {
   )
 }
 
-export function SVG({
-  url,
-  position = [0, 0, 0],
-  scale = [1, 1, 1],
-  CustomShape = DefaultCustomShape,
-  ...props
-}: {
-  url: string
-  position?: [number, number, number]
-  scale?: [number, number, number]
-  CustomShape?: typeof DefaultCustomShape
-} & Omit<
-  ReactThreeFiber.Object3DNode<Group, typeof Group>,
-  "position" | "scale"
->) {
+export const SVG = forwardRef(function InnerSVG(
+  {
+    url,
+    position = [0, 0, 0],
+    scale,
+    CustomShape = DefaultCustomShape,
+    ...props
+  }: {
+    url: string
+    position?: [number, number, number]
+    scale?: [number, number, number]
+    CustomShape?: typeof DefaultCustomShape
+  } & Omit<
+    ReactThreeFiber.Object3DNode<Group, typeof Group>,
+    "position" | "scale"
+  >,
+  ref,
+) {
   const star = useLoader(SVGLoader, url)
+  const scaleMod = scale ?? [1, 1, 1]
   return (
     <group
-      {...props}
+      ref={ref as any}
       position={[
         position[0] +
-          ((star.xml as any).attributes.width.value / 2) * -scale[0],
+          ((star.xml as any).attributes.width.value / 2) * -scaleMod[0],
         position[1] +
-          ((star.xml as any).attributes.height.value / 2) * -scale[1],
+          ((star.xml as any).attributes.height.value / 2) * -scaleMod[1],
         position[2],
       ]}
-      scale={scale}
+      {...props}
     >
       {star.paths
         .flatMap(path => path.toShapes(true))
@@ -47,4 +51,4 @@ export function SVG({
         ))}
     </group>
   )
-}
+})

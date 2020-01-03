@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import React, { Suspense } from "react"
-import { Canvas, useThree } from "react-three-fiber"
-import { Vector3, Color, Euler, Plane } from "three"
+import React, { Suspense, useRef } from "react"
+import { Canvas, useThree, useFrame } from "react-three-fiber"
+import { Vector3, Color, Euler, Plane, Mesh } from "three"
 import { CameraScene } from "../CameraScene"
 import { GradientMaterial } from "../GradientMaterial"
 import { SVG } from "../SVG"
@@ -12,15 +12,15 @@ import { DepthTriangle } from "../DepthTriangle"
 const clippingPlanes = [
   new Plane(new Vector3(1, 0, 0), 149),
   new Plane(new Vector3(-1, 0, 0), 149),
+  new Plane(new Vector3(0, -1, 0), 297.5),
+  new Plane(new Vector3(0, 1, 0), 297.5),
 ]
-
-const colors = [0xff0000, 0xff0000]
 
 function Helpers() {
   return (
     <group name="helpers" visible={false}>
-      {clippingPlanes.map((plane, i) => (
-        <planeHelper args={[plane, 5, colors[i]]} />
+      {clippingPlanes.map(plane => (
+        <planeHelper args={[plane, 1000, 0xff0000]} />
       ))}
     </group>
   )
@@ -80,8 +80,16 @@ function Mountains() {
 }
 
 function Sun() {
+  const ref = useRef<Mesh>()
+  useFrame(({ clock }) => {
+    if (ref.current) {
+      const amt = Math.sin(clock.getElapsedTime() * 0.2) * 0.1
+      ref.current.translateY(-amt)
+    }
+  })
+
   return (
-    <mesh position={[74.5, -74, 25]}>
+    <mesh position={[74.5, -74, 25]} ref={ref}>
       <circleBufferGeometry attach="geometry" args={[60, 50]} />
       <GradientMaterial
         attach="material"
@@ -95,9 +103,27 @@ function Sun() {
 function Sunset() {
   const { gl } = useThree()
   gl.localClippingEnabled = true
+
+  const ref1 = useRef<Mesh>()
+  const ref2 = useRef<Mesh>()
+  const ref3 = useRef<Mesh>()
+
+  useFrame(({ clock }) => {
+    if (ref1.current && ref2.current && ref3.current) {
+      const amt = Math.sin(clock.getElapsedTime() * 0.2)
+      ref1.current.translateY(-amt * 0.1)
+      ref1.current.translateX(-amt * 0.1)
+      ref2.current.translateY(-amt * 0.07)
+      ref2.current.translateX(-amt * 0.07)
+      ref3.current.translateY(-amt * 0.05)
+      ref3.current.translateX(-amt * 0.05)
+    }
+  })
+
   return (
     <>
       <mesh
+        ref={ref1}
         renderOrder={1}
         position={[0, 0, 10]}
         rotation={new Euler(0, 0, Math.PI / 4)}
@@ -112,6 +138,7 @@ function Sunset() {
         />
       </mesh>
       <mesh
+        ref={ref2}
         renderOrder={2}
         position={[0, -74.5, 15]}
         rotation={new Euler(0, 0, Math.PI / 4)}
@@ -126,6 +153,7 @@ function Sunset() {
         />
       </mesh>
       <mesh
+        ref={ref3}
         renderOrder={3}
         position={[0, -149, 20]}
         rotation={new Euler(0, 0, Math.PI / 4)}
