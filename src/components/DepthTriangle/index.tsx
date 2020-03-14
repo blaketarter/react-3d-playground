@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, ReactNode } from "react"
 import { Mesh, Vector2, Shape } from "three"
 import { ReactThreeFiber } from "react-three-fiber"
 
@@ -8,6 +8,7 @@ export function DepthTriangle({
   v3,
   color,
   depth = 1,
+  customMaterial,
   ...props
 }: {
   v1: [number, number, number]
@@ -15,6 +16,7 @@ export function DepthTriangle({
   v3: [number, number, number]
   color: string
   depth?: number
+  customMaterial?: ReactNode
 } & ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>) {
   const ref = useRef<Shape>(
     new Shape([
@@ -30,7 +32,7 @@ export function DepthTriangle({
         attach="geometry"
         args={[ref.current, { bevelEnabled: false, depth }]}
       />
-      <meshBasicMaterial attach="material" color={color} />
+      {customMaterial ?? <meshBasicMaterial attach="material" color={color} />}
     </mesh>
   )
 }

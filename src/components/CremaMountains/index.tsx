@@ -9,18 +9,23 @@ import StarSmallSVG from "../../assets/Star-small.svg"
 import StarsSVG from "../../assets/Stars.svg"
 import { DepthTriangle } from "../DepthTriangle"
 
-const clippingPlanes = [
-  new Plane(new Vector3(1, 0, 0), 149),
-  new Plane(new Vector3(-1, 0, 0), 149),
-  new Plane(new Vector3(0, -1, 0), 297.5),
-  new Plane(new Vector3(0, 1, 0), 297.5),
-]
+const useClipping = true
+
+const clippingPlanes = useClipping
+  ? [
+      new Plane(new Vector3(1, 0, 0), 149),
+      new Plane(new Vector3(-1, 0, 0), 149),
+      new Plane(new Vector3(0, -1, 0), 297.5),
+      new Plane(new Vector3(0, 1, 0), 297.5),
+      new Plane(new Vector3(0, 0, 1), 1),
+    ]
+  : []
 
 function Helpers() {
   return (
     <group name="helpers" visible={false}>
-      {clippingPlanes.map(plane => (
-        <planeHelper args={[plane, 1000, 0xff0000]} />
+      {clippingPlanes.map((plane, i) => (
+        <planeHelper key={i} args={[plane, 1000, 0xff0000]} />
       ))}
     </group>
   )
@@ -78,6 +83,46 @@ function Mountains() {
     </>
   )
 }
+
+// function MountainPyramids() {
+//   const geometryRef = useUpdate<CylinderGeometry>(geometry => {
+//     geometry.faces[0].color = new Color("#282862")
+//     geometry.faces[1].color = new Color("#282862")
+//     geometry.faces[2].color = new Color("#282862")
+//     geometry.faces[3].color = new Color("#817BB9")
+//     geometry.faces[4].color = new Color("#282862")
+//     geometry.faces[5].color = new Color("#282862")
+//     geometry.faces[6].color = new Color("#282862")
+//     geometry.faces[7].color = new Color("#282862")
+//   }, [])
+
+//   return (
+//     <>
+//       <mesh position={[-149, -149, 200]}>
+//         <cylinderBufferGeometry attach="geometry" args={[0, 298, 298, 4, 1]} />
+//         <meshBasicMaterial
+//           attach="material"
+//           color="#282862"
+//           side={DoubleSide}
+//           clippingPlanes={clippingPlanes}
+//         />
+//       </mesh>
+//       <mesh position={[74.5, -186, 50]}>
+//         <cylinderGeometry
+//           ref={geometryRef}
+//           attach="geometry"
+//           args={[0, 223.5, 223.5, 4, 1]}
+//         />
+//         <meshBasicMaterial
+//           attach="material"
+//           side={DoubleSide}
+//           vertexColors={FaceColors}
+//           clippingPlanes={clippingPlanes}
+//         />
+//       </mesh>
+//     </>
+//   )
+// }
 
 function Sun() {
   const ref = useRef<Mesh>()

@@ -1,5 +1,5 @@
 import React from "react"
-import { Geometry, Mesh, Vector3, Face3 } from "three"
+import { Geometry, Mesh, Vector3, Face3, Side } from "three"
 import { useUpdate, ReactThreeFiber } from "react-three-fiber"
 
 export function Triangle({
@@ -7,11 +7,13 @@ export function Triangle({
   v2,
   v3,
   color,
+  side,
   ...props
 }: {
   v1: [number, number, number]
   v2: [number, number, number]
   v3: [number, number, number]
+  side?: Side
   color: string
 } & ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>) {
   const ref = useUpdate<Geometry>(geometry => {
@@ -25,7 +27,12 @@ export function Triangle({
   return (
     <mesh {...props}>
       <geometry attach="geometry" ref={ref} />
-      <meshBasicMaterial attach="material" color={color} />
+      <meshBasicMaterial
+        attach="material"
+        color={color}
+        side={side}
+        fog={true}
+      />
     </mesh>
   )
 }
