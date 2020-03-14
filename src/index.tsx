@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker"
 /* eslint-disable @typescript-eslint/no-namespace */
 import { ReactThreeFiber } from "react-three-fiber"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { Fog } from "three"
 
 declare global {
   namespace JSX {
@@ -16,6 +17,7 @@ declare global {
         OrbitControls,
         typeof OrbitControls
       >
+      fog: ReactThreeFiber.Object3DNode<Fog, typeof Fog>
     }
   }
 }
