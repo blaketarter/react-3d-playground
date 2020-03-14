@@ -4,6 +4,22 @@ import { App } from "./components/App"
 import "./index.css"
 import * as serviceWorker from "./serviceWorker"
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-namespace */
+import { ReactThreeFiber } from "react-three-fiber"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      orbitControls: ReactThreeFiber.Object3DNode<
+        OrbitControls,
+        typeof OrbitControls
+      >
+    }
+  }
+}
+
 ReactDOM.render(<App />, document.getElementById("root"))
 
 // If you want your app to work offline and load faster, you can change

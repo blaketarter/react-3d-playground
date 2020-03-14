@@ -1,8 +1,5 @@
 module.exports = {
   parser: "@typescript-eslint/parser", // Specifies the ESLint parser
-  env: {
-    "cypress/globals": true
-  },
   extends: [
     "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
@@ -13,19 +10,15 @@ module.exports = {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: "module", // Allows for the use of imports
   },
-  plugins: [
-    "@typescript-eslint", 
-    "react",
-    "cypress"
-  ],
+  plugins: ["@typescript-eslint", "react"],
   rules: {
     "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/explicit-function-return-type": "off", // TS can infer this
   },
-  settings:  {
-    react:  {
-      version:  "detect",  // Tells eslint-plugin-react to automatically detect the version of React to use
+  settings: {
+    react: {
+      version: "detect", // Tells eslint-plugin-react to automatically detect the version of React to use
     },
   },
 }
