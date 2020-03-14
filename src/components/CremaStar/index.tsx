@@ -140,7 +140,7 @@ function Star() {
 export function CremaStar() {
   return (
     <Canvas
-      style={{ height: "100vh", width: "100vw", background: "white" }}
+      style={{ height: "100vh", width: "100vw" }}
       camera={{ position: [0, 0, 595] }}
       orthographic
     >

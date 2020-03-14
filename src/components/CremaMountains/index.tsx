@@ -220,7 +220,7 @@ function Stars() {
   return (
     <>
       <SVG url={StarSmallSVG} position={[0, 148, 50]} />
-      <SVG url={StarsSVG} position={[0, 148, 9]} />
+      <SVG url={StarsSVG} position={[0, 100, 9]} />
     </>
   )
 }
@@ -228,11 +228,11 @@ function Stars() {
 export function CremaMountains() {
   return (
     <Canvas
-      style={{ height: "100vh", width: "100vw", background: "white" }}
+      style={{ height: "100vh", width: "100vw" }}
       camera={{ position: [0, 0, 595] }}
       orthographic
     >
-      <CameraScene resetCamera>
+      <CameraScene>
         <Suspense fallback={null}>
           <Background />
           <Sun />
